@@ -1,4 +1,3 @@
-
 import { createBrowserRouter } from "react-router-dom";
 import Home from "../components/Home";
 import Blog from "../components/Blog";
@@ -8,7 +7,10 @@ import SinglePost from "../components/SinglePost";
 import Login from "../components/Login";
 import Register from "../components/Register";
 import Dashboard from "../components/Dashboard";
+import CreatePost from "../components/CreatePost";
+import EditPost from "../components/EditPost";
 import Layout from "../components/Layout";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 const router = createBrowserRouter([
     {
@@ -46,8 +48,21 @@ const router = createBrowserRouter([
         element: <Register />
     },
     {
-        path: "/dashboard",
-        element: <Dashboard />
+        element: <ProtectedRoute />,
+        children: [
+            {
+                path: "/dashboard",
+                element: <Dashboard />
+            },
+            {
+                path: "/create-post",
+                element: <CreatePost />
+            },
+            {
+                path: "/edit-post/:id",
+                element: <EditPost />
+            }
+        ]
     }
 ]);
 

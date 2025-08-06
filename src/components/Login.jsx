@@ -1,22 +1,24 @@
-import React, { useState } from 'react';
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../firebase';
+import React, { useState, useContext } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const { login } = useContext(UserContext);
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setError(null);
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+            const res = await axios.post('http://localhost:5000/auth/login', { email, password });
+            login(res.data.token); // Use context login function
             navigate('/dashboard'); // Redirect to dashboard after successful login
         } catch (err) {
-            setError(err.message);
+            setError(err.response.data.msg || 'Login failed');
         }
     };
 

@@ -1,8 +1,16 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const { user, logout } = useContext(UserContext);
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
 
     return (
         <nav className="bg-white shadow-md">
@@ -31,10 +39,19 @@ const Navbar = () => {
                         <Link to="/blog" className="text-gray-600 hover:text-blue-500">Blog</Link>
                         <Link to="/about" className="text-gray-600 hover:text-blue-500">About</Link>
                         <Link to="/contact" className="text-gray-600 hover:text-blue-500">Contact</Link>
+                        {user && user.isAuthenticated && (
+                            <Link to="/dashboard" className="text-gray-600 hover:text-blue-500">Dashboard</Link>
+                        )}
                     </div>
                     <div className="hidden md:flex items-center space-x-4">
-                        <Link to="/login" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Login</Link>
-                        <Link to="/register" className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Register</Link>
+                        {user && user.isAuthenticated ? (
+                            <button onClick={handleLogout} className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">Logout</button>
+                        ) : (
+                            <>
+                                <Link to="/login" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Login</Link>
+                                <Link to="/register" className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Register</Link>
+                            </>
+                        )}
                     </div>
                 </div>
 
@@ -45,8 +62,17 @@ const Navbar = () => {
                         <Link to="/blog" className="block text-gray-600 hover:text-blue-500" onClick={() => setIsOpen(false)}>Blog</Link>
                         <Link to="/about" className="block text-gray-600 hover:text-blue-500" onClick={() => setIsOpen(false)}>About</Link>
                         <Link to="/contact" className="block text-gray-600 hover:text-blue-500" onClick={() => setIsOpen(false)}>Contact</Link>
-                        <Link to="/login" className="block bg-blue-500 text-white px-4 py-2 rounded-md text-center hover:bg-blue-600" onClick={() => setIsOpen(false)}>Login</Link>
-                        <Link to="/register" className="block bg-green-500 text-white px-4 py-2 rounded-md text-center hover:bg-green-600" onClick={() => setIsOpen(false)}>Register</Link>
+                        {user && user.isAuthenticated && (
+                            <Link to="/dashboard" className="block text-gray-600 hover:text-blue-500" onClick={() => setIsOpen(false)}>Dashboard</Link>
+                        )}
+                        {user && user.isAuthenticated ? (
+                            <button onClick={handleLogout} className="block bg-red-500 text-white px-4 py-2 rounded-md text-center hover:bg-red-600">Logout</button>
+                        ) : (
+                            <>
+                                <Link to="/login" className="block bg-blue-500 text-white px-4 py-2 rounded-md text-center hover:bg-blue-600" onClick={() => setIsOpen(false)}>Login</Link>
+                                <Link to="/register" className="block bg-green-500 text-white px-4 py-2 rounded-md text-center hover:bg-green-600" onClick={() => setIsOpen(false)}>Register</Link>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
