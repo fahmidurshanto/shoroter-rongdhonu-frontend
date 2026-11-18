@@ -151,7 +151,7 @@ export default function SinglePostClient({ id }: { id: string }) {
       : 'text-lg md:text-xl leading-loose';
 
   return (
-    <article className="max-w-3xl mx-auto px-4 py-6">
+    <article className="max-w-5xl lg:max-w-6xl mx-auto px-4 sm:px-6 py-8">
       {/* Top navigation & Font Resizer */}
       <div className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-gray-200">
         <Link
@@ -228,7 +228,7 @@ export default function SinglePostClient({ id }: { id: string }) {
 
       {/* Featured Image */}
       {post.featuredImage && (
-        <div className="mb-8 rounded-2xl overflow-hidden shadow-sm max-h-[460px] bg-gray-100">
+        <div className="mb-8 rounded-2xl overflow-hidden shadow-sm max-h-[540px] bg-gray-100">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={post.featuredImage}
